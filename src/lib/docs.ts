@@ -1,4 +1,4 @@
-import { BookOpen, Cable, CircleHelp, Compass, Layers3, Map, MessageSquareText, PackageCheck, Rocket, ShieldCheck, Sparkles, Store } from "lucide-react";
+import { BookOpen, Cable, CircleHelp, Compass, Layers3, MessageSquareText, PackageCheck, Rocket, ShieldCheck, Sparkles, Store } from "lucide-react";
 
 export type Section = { heading: string; body: string; bullets?: string[]; callout?: string; steps?: string[] };
 export type Doc = { slug: string; title: string; eyebrow: string; description: string; icon: string; sections: Section[]; next?: string[] };
@@ -7,10 +7,10 @@ export const navGroups = [
   { label: "시작하기", items: ["quick-start", "what-is-opencrab", "launch-note"] },
   { label: "핵심 이해", items: ["ontology", "marketplace", "packs"] },
   { label: "연결하기", items: ["mcp-url", "connect-gpt-claude", "connect-devtools"] },
-  { label: "자료", items: ["mindmap", "faq", "troubleshooting"] },
+  { label: "도움말", items: ["faq", "troubleshooting"] },
 ];
 
-export const iconMap = { Rocket, BookOpen, Sparkles, Layers3, Store, PackageCheck, Cable, MessageSquareText, Compass, Map, CircleHelp, ShieldCheck } as const;
+export const iconMap = { Rocket, BookOpen, Sparkles, Layers3, Store, PackageCheck, Cable, MessageSquareText, Compass, CircleHelp, ShieldCheck } as const;
 
 export const docs: Doc[] = [
   {
@@ -35,9 +35,9 @@ export const docs: Doc[] = [
   ], next: ["ontology", "marketplace"] },
   { slug: "ontology", title: "온톨로지 쉽게 이해하기", eyebrow: "핵심 개념", description: "온톨로지를 비전공자도 이해할 수 있게 데이터 지도 관점으로 설명합니다.", icon: "Sparkles", sections: [
     { heading: "온톨로지는 지식의 지도입니다", body: "문서 더미에서 중요한 사람, 제품, 개념, 사건, 증거를 뽑고 서로 어떤 관계인지 연결한 구조가 온톨로지입니다." },
-    { heading: "9가지 시멘틱 문법", body: "첨부된 마인드맵 기준으로 OPENCRAB은 주체, 리소스, 증거, 개념, 결과, 클레임, 커뮤니티, 정책, 강도 같은 의미 단위를 다룹니다.", bullets: ["Subject: 행동하거나 설명되는 주체", "Resource: 참조되는 자료나 자원", "Evidence: 답변의 근거", "Concept: 반복되는 핵심 개념", "Outcome/Claim/Policy: 결과, 주장, 규칙"] },
+    { heading: "시멘틱 문법", body: "OPENCRAB은 주체, 리소스, 증거, 개념, 결과, 클레임, 커뮤니티, 정책, 강도 같은 의미 단위를 다룰 수 있습니다. 정확한 세부 명칭은 OPENCRAB 공식 문서와 서비스 화면 기준으로 확인이 필요합니다.", bullets: ["Subject: 행동하거나 설명되는 주체", "Resource: 참조되는 자료나 자원", "Evidence: 답변의 근거", "Concept: 반복되는 핵심 개념", "Outcome/Claim/Policy: 결과, 주장, 규칙"] },
     { heading: "AI 답변이 달라지는 이유", body: "단순 키워드 검색이 아니라 관계 그래프를 따라 맥락을 찾기 때문에, GPT나 Claude가 특정 도메인의 구조를 더 안정적으로 이해할 수 있습니다." }
-  ], next: ["packs", "mindmap"] },
+  ], next: ["packs", "marketplace"] },
   { slug: "marketplace", title: "마켓플레이스에서 팩 고르기", eyebrow: "사용법", description: "테스트 기간에 배포된 온톨로지 팩을 선택하고 적용하는 방법입니다.", icon: "Store", sections: [
     { heading: "팩이란?", body: "팩은 특정 주제나 도메인에 대해 미리 정리된 온톨로지 데이터셋입니다. 예를 들어 산업 리서치, 콘텐츠 전략, 제품 분석 지식이 팩으로 제공될 수 있습니다." },
     { heading: "선택 기준", body: "내가 AI에게 묻고 싶은 질문과 가장 가까운 도메인의 팩을 고르면 됩니다.", bullets: ["질문 주제가 팩 설명과 일치하는가", "공개/무료/유료 정책 확인", "최신 업데이트와 제공 범위 확인", "GPT/Claude 연결 목적에 맞는지 확인"] },
@@ -63,10 +63,6 @@ export const docs: Doc[] = [
     { heading: "개발자가 얻는 장점", body: "프로젝트 도메인 문서, 정책, 리서치 팩을 MCP로 연결하면 코딩 에이전트가 코드 외부의 비즈니스 맥락을 더 잘 참고할 수 있습니다.", bullets: ["기획 문서 기반 구현", "도메인 용어 일관성", "근거 기반 의사결정", "프로젝트별 지식 재사용"] },
     { heading: "권장 방식", body: "처음에는 읽기 전용 성격의 공개/테스트 팩으로 연결을 확인한 뒤, 민감한 사내 데이터는 권한과 로그 정책을 확인하고 연결하세요." }
   ], next: ["troubleshooting"] },
-  { slug: "mindmap", title: "오픈크랩 이해 지도", eyebrow: "자료", description: "첨부된 마인드맵 이미지를 바탕으로 OPENCRAB과 온톨로지 생태계를 훑어봅니다.", icon: "Map", sections: [
-    { heading: "큰 구조", body: "첨부 자료는 오픈크랩 개발 배경, 온톨로지의 핵심 가치, 시스템 구조, 주요 기능 및 도구, 운영 정책, 미래 전망으로 구성되어 있습니다." },
-    { heading: "핵심 키워드", body: "도메인별 지식 통합, GPT Codex 5.5 기반 완성, 로컬 크랩 오픈소스화, 9가지 시멘틱 문법, MCP 연결, 역방향 인제스트, 개인 맞춤형 지식 엔진이 반복적으로 등장합니다." }
-  ], next: ["ontology", "quick-start"] },
   { slug: "launch-note", title: "베타 테스트와 런칭", eyebrow: "공지", description: "6/1 정식 런칭 전 테스트 기간 안내 문구입니다.", icon: "ShieldCheck", sections: [
     { heading: "현재 상태", body: "OPENCRAB은 6/1 정식 런칭 예정이며, 테스트 기간 동안 배포된 팩은 무료로 사용할 수 있다는 안내가 제공되었습니다." },
     { heading: "처음 막힐 때", body: "가입, 팩 적용, MCP 연결 과정이 어렵게 느껴질 수 있습니다. 막히는 부분은 단톡방에 질문하고, 테스트 피드백을 모아 서비스 개선에 반영하는 흐름을 권장합니다." }
@@ -84,12 +80,3 @@ export const docs: Doc[] = [
 ];
 
 export const docsBySlug = Object.fromEntries(docs.map((doc) => [doc.slug, doc]));
-export const mindmapImages = [
-  { src: "/mindmaps/img_e22c350f7f19.png", title: "전체 구조" },
-  { src: "/mindmaps/img_47e7cb7220f6.png", title: "개발 배경" },
-  { src: "/mindmaps/img_123445ab7a84.png", title: "온톨로지 가치" },
-  { src: "/mindmaps/img_7a6a04fc6ee7.png", title: "시스템 구조" },
-  { src: "/mindmaps/img_c1ba15dde63f.png", title: "로컬 크랩" },
-  { src: "/mindmaps/img_a802d672753a.png", title: "운영 정책" },
-  { src: "/mindmaps/img_0a111bf8a55c.png", title: "미래 전망" },
-];
