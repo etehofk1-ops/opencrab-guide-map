@@ -1,13 +1,9 @@
 import Link from "next/link";
-import { ArrowRight, Cable, Layers3, Rocket, Sparkles } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { SearchBox } from "@/components/SearchBox";
+import { docs, iconMap } from "@/lib/docs";
 
-const cards = [
-  { href: "/docs/quick-start", icon: Rocket, title: "5분 시작", desc: "가입부터 MCP URL 복사까지 바로 따라가기" },
-  { href: "/docs/ontology", icon: Sparkles, title: "온톨로지 이해", desc: "지식 그래프와 9가지 의미 단위 쉽게 이해하기" },
-  { href: "/docs/marketplace", icon: Layers3, title: "팩 고르기", desc: "마켓플레이스에서 온톨로지 팩 선택·적용" },
-  { href: "/docs/mcp-url", icon: Cable, title: "MCP 연결", desc: "GPT, Claude, Codex, Cursor, Hermes-Agent 연결" },
-];
+const featuredDocs = docs.filter((doc) => doc.featured);
 
 export default function Home() {
   return <main className="home">
@@ -27,6 +23,6 @@ export default function Home() {
       </div>
       <SearchBox />
     </section>
-    <section className="cardGrid">{cards.map((card) => { const Icon = card.icon; return <Link href={card.href} className="featureCard" key={card.href}><Icon size={26}/><h3>{card.title}</h3><p>{card.desc}</p><ArrowRight size={18}/></Link> })}</section>
+    <section className="cardGrid">{featuredDocs.map((doc) => { const Icon = iconMap[doc.icon as keyof typeof iconMap]; return <Link href={`/docs/${doc.slug}`} className="featureCard" key={doc.slug}><Icon size={26}/><h3>{doc.title}</h3><p>{doc.description}</p><ArrowRight size={18}/></Link> })}</section>
   </main>;
 }

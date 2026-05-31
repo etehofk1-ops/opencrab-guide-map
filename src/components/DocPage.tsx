@@ -2,7 +2,8 @@
 
 import Link from "next/link";
 import { ArrowRight, CheckCircle2, ChevronDown, Copy, ExternalLink, TextAlignStart } from "lucide-react";
-import { docsBySlug, iconMap, type Doc } from "@/lib/docs";
+import { docsBySlug, GUIDE_LAST_CHECKED, GUIDE_SOURCE_NOTE, iconMap, type Doc } from "@/lib/docs";
+import { useState } from "react";
 
 function slugify(value: string) {
   return value
@@ -15,6 +16,8 @@ function toMarkdown(doc: Doc) {
   return [
     `# ${doc.title}`,
     doc.description,
+    `최종 확인일: ${GUIDE_LAST_CHECKED}`,
+    `근거/주의: ${doc.sourceNote ?? GUIDE_SOURCE_NOTE}`,
     ...doc.sections.flatMap((section) => [
       `## ${section.heading}`,
       section.body,
@@ -27,7 +30,17 @@ function toMarkdown(doc: Doc) {
 
 export function DocPage({ doc }: { doc: Doc }) {
   const Icon = iconMap[doc.icon as keyof typeof iconMap];
-  const copyMarkdown = () => navigator.clipboard?.writeText(toMarkdown(doc));
+  const [copyStatus, setCopyStatus] = useState<"idle" | "success" | "error">("idle");
+  const copyMarkdown = async () => {
+    try {
+      await navigator.clipboard?.writeText(toMarkdown(doc));
+      setCopyStatus("success");
+    } catch {
+      setCopyStatus("error");
+    } finally {
+      window.setTimeout(() => setCopyStatus("idle"), 1600);
+    }
+  };
 
   return <>
     <main className="docMain">
@@ -37,13 +50,17 @@ export function DocPage({ doc }: { doc: Doc }) {
           <div className="docHeaderTop">
             <div className="heroIcon"><Icon size={22} /></div>
             <div className="docActions">
-              <button type="button" onClick={copyMarkdown}><Copy size={14} />Copy Markdown</button>
-              <a href="https://opencrab.sh/" target="_blank" rel="noreferrer">Open <ChevronDown size={14} /></a>
+              <button type="button" onClick={copyMarkdown} aria-live="polite"><Copy size={14} />{copyStatus === "success" ? "복사됨" : copyStatus === "error" ? "복사 실패" : "Markdown 복사"}</button>
+              <a href="https://opencrab.sh/" target="_blank" rel="noreferrer">OPENCRAB 열기 <ChevronDown size={14} /></a>
             </div>
           </div>
           <p className="eyebrow">{doc.eyebrow}</p>
           <h1>{doc.title}</h1>
           <p className="lead">{doc.description}</p>
+          <dl className="docMeta">
+            <div><dt>최종 확인일</dt><dd>{GUIDE_LAST_CHECKED}</dd></div>
+            <div><dt>근거/주의</dt><dd>{doc.sourceNote ?? GUIDE_SOURCE_NOTE}</dd></div>
+          </dl>
         </header>
 
         <div className="proseDoc">
@@ -69,7 +86,7 @@ export function DocPage({ doc }: { doc: Doc }) {
       </article>
     </main>
     <aside className="toc">
-      <h3><TextAlignStart size={16} />On this page</h3>
+      <h3><TextAlignStart size={16} />이 문서의 목차</h3>
       <nav>
         {doc.sections.map((section, index) => {
           const id = slugify(section.heading) || `section-${index + 1}`;
